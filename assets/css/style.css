@@ -5,8 +5,8 @@ body{
 }
 .content-box{
 	background: #fff484;
-	width: 1000px;
-	height: 1000px;
+	width: 100%;
+	height: 100%;
 	margin: 0 auto;
 	padding: 15px;
 	border: 2px solid #fff484;
@@ -26,4 +26,8 @@ body{
 	background: pink;
 	border: 3px solid purple;
 	border-radius: 10px;
+	margin: 250px 20px;
+}
+#start-btn:hover{
+	background: #ffccff;
 }
