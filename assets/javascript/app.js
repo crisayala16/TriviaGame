@@ -2,6 +2,7 @@ $(document).ready(function(){
 	var contentBody = $(".content-body");
 	var incorrectAnswers = 0;
 	var correctAnswers = 0;
+	var unanswered = 0;
 	var answerArray = [];
 	var onIndex = 0;
 	var intervalId;
@@ -14,14 +15,20 @@ $(document).ready(function(){
 		number--;
 
 		$("#timer").html("<h1>Time remaining: " + number + "</h1>");
-
+		//Code triggered when the user runs out of time for the current question
 		if(number === 0){
 			clearInterval(intervalId);
-			onIndex++;
-			answerArray = [];
-			incorrectAnswers++;
-			triviaGame.runTrivia(onIndex);
-			number = 30;
+			unanswered++;
+			intervalId2 = setInterval(decrement2, 1000);
+			contentBody.html("<h2>Out of Time!</h2>");
+			contentBody.append("<h2>The correct answer was: " + answerArray[0] + "</h2>");
+			contentBody.append("<div id='giphy'></div>");
+			$.ajax({
+				url: queryUrl,
+				method: "GET"
+			}).done(function(response){
+				$("#giphy").html("<img src='" + response.data[0].images.fixed_height.url + "'>");
+			});
 		}	
 	}
 	//This timer is for showing the gif
@@ -150,6 +157,7 @@ $(document).ready(function(){
 		else{
 			contentBody.append("<h2>Correct Answers: " + correctAnswers + "</h2>");
 			contentBody.append("<h2>Incorrect Answers: " + incorrectAnswers + "</h2>");
+			contentBody.append("<h2>Unaswered questions: " + unanswered + "</h2>");
 			clearInterval(intervalId);
 			clearInterval(intervalId2);
 			contentBody.append("<input type='button' id='start-btn' value='Restart'></input>");
