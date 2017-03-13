@@ -104,7 +104,7 @@ $(document).ready(function(){
 			};
 			answerArray.push(answer);
 			console.log(answerArray);
-			queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + triviaGame.questions[onIndex].options[0] + "&api_key=dc6zaTOxFJmzC";
+			queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + triviaGame.questions[onIndex].options[0] + "&api_key=dc6zaTOxFJmzC";
 			shuffleOptions(triviaGame.questions[index].options);
 			//displays the question and options onto the page
 			contentBody.append("<h2 class='questionOutput'>" + triviaGame.questions[index].question + "</h2>");
