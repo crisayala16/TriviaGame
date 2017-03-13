@@ -24,7 +24,7 @@ $(document).ready(function(){
 			number = 30;
 		}	
 	}
-	//This timer is for showing the giphy
+	//This timer is for showing the gif
 	function decrement2(){
 		number2--;
 		if(number2 === 0){

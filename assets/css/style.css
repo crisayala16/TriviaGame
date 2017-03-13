@@ -11,6 +11,8 @@ body{
 	padding: 15px;
 	border: 20px dashed #fff;
 	border-radius: 20px;
+	position: relative;
+	top: 10px;
 }
 .content-header{
 	text-align: center;
@@ -41,4 +43,12 @@ body{
 }
 .questionOutput{
 	font-size: 40px;
+}
+footer{
+	padding: 20px 0px;
+	width: 100%;
+	background: grey;
+	font-size: 30px;
+	color: #fff;
+	text-align: center;
 }
