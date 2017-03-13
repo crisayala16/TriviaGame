@@ -41,6 +41,9 @@ body{
 	border: 2px solid #fff;
 	border-radius: 10px;
 }
+.option:hover{
+	background: #b8d1f9;
+}
 .questionOutput{
 	font-size: 40px;
 }
