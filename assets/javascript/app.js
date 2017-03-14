@@ -5,91 +5,102 @@ $(document).ready(function(){
 	var unanswered = 0;
 	var answerArray = [];
 	var onIndex = 0;
-	var intervalId;
-	var intervalId2;
-	var number;
-	var number2 = 4;
+	var questionTimer;
+	var gifTimer;
+	var quesTNumber = 30;
+	var gifTNumber = 4;
 	var queryUrl;
-	//This timer is for the questions
-	function decrement(){
-		number--;
 
-		$("#timer").html("<h1>Time remaining: " + number + "</h1>");
-		//Code triggered when the user runs out of time for the current question
-		if(number === 0){
-			clearInterval(intervalId);
-			unanswered++;
-			intervalId2 = setInterval(decrement2, 1000);
-			contentBody.html("<h2>Out of Time!</h2>");
-			contentBody.append("<h2>The correct answer was: " + answerArray[0] + "</h2>");
-			contentBody.append("<div id='giphy'></div>");
+
+	function getGif(){
+		contentBody.append("<div id='giphy'></div>");
 			$.ajax({
 				url: queryUrl,
 				method: "GET"
 			}).done(function(response){
-				$("#giphy").html("<img src='" + response.data[0].images.fixed_height.url + "'>");
-			});
+				var random = Math.floor(Math.random() * 3);
+				console.log(random);
+				$("#giphy").html("<img src='" + response.data[random].images.fixed_height.url + "'>");
+			})
+	}
+	//This timer is for the questions
+	function questionDecrement(){
+		quesTNumber--;
+
+		$("#timer").html("<h1>Time remaining: " + quesTNumber + "</h1>");
+		//Code triggered when the user runs out of time for the current question
+		if(quesTNumber === 0){
+			clearInterval(questionTimer);
+			unanswered++;
+			contentBody.html("<h2>Out of Time!</h2>");
+			contentBody.append("<h2>The correct answer was: " + answerArray[0] + "</h2>");
+			getGif();
+			gifTNumber = 4;
+			gifTimer = setInterval(gifDecrement, 1000);
 		}	
 	}
 	//This timer is for showing the gif
-	function decrement2(){
-		number2--;
-		if(number2 === 0){
+	function gifDecrement(){
+		gifTNumber--;
+		if(gifTNumber === 0){
 			onIndex++;
 			answerArray = [];
 			triviaGame.runTrivia(onIndex);
-			clearInterval(intervalId2);
+			clearInterval(gifTimer);
 		}
 	}
 
 	var triviaGame = {
 		questions: [{
 
-			question: "Who played the title character in the teen sitcom musical Hannah Montana?",
-			options: ["Mily Cyrus", "Taylor Swift", "Miranda Cosgrove","Katy Perry"]
+			question: "Which character was Walt Disney’s favorite?",
+			options: ["Goofy", "Minney Mouse", "Mickey Mouse","Donald Duck"]
 
 		},
 		{
-			question: "What country was host to the 1930 inaugural FIFA Football World Cup?",
-			options: ["Uruguay", "South Africa", "Japan", "Brazil"]
+			question: "What is the name of The Last Airbender?",
+			options: ["Aang", "Katara", "Appa", "Albert"]
 		},
 		{
 
-			question: "What is the melting point of ice in Fahrenheit?",
-			options: ["32", "16", "36","10"] 
+			question: "Which Vice President was known for loving ice cream and wearing the same sunglasses since adolescence?",
+			options: ["Joe Biden", "Dick Cheney", "Dan Quayle","Albert Gore"] 
 		},
 		{
-			question: "Who painted a late 15th-century mural known as the Last Supper?",
-			options: ["Leonardo da Vinci", "Michelangelo", "Titian", "Filippino Lippi"]
+			question: "Which animal went to space first?",
+			options: ["Dog", "Monkey", "Cat", "Parrot"]
 		},
 		{
-			question: "The final link of the first transcontinental railroad across the United States was completed in which state?",
-			options: ["Utah", "Nevada", "Colorado", "Texas"]
+			question: "What is the longest-running show?",
+			options: ["The Simpsons", "Law and Order", "Survivor", "Gunsmoke"]
 		},
 		{
 			question: "Long Island is a part of which US state?",
 			options: ["New York", "Pennsylvania", "New Jersey", "Massachusetts"]
 		},
+		{
+			question: "It's ________!?",
+			options: ["John Cena", "Jonny", "a me, Mario", "begining to look a lot like Christmas"]
+		},
 
 		],
         //Resets the options to their original values.
 		resetOptions: function(){
-			triviaGame.questions[0].options = ["Mily Cyrus", "Taylor Swift", "Miranda Cosgrove","Katy Perry"];
-			triviaGame.questions[1].options = ["Uruguay", "South Africa", "Japan", "Brazil"];
-			triviaGame.questions[2].options = ["32", "16", "36","10"];
-			triviaGame.questions[3].options = ["Leonardo da Vinci", "Michelangelo", "Titian", "Filippino Lippi"];
-			triviaGame.questions[4].options = ["Utah", "Nevada", "Colorado", "Texas"];
+			triviaGame.questions[0].options = ["Goofy", "Minney Mouse", "Mickey Mouse","Donald Duck"];
+			triviaGame.questions[1].options = ["Aang", "Katara", "Appa", "Albert"];
+			triviaGame.questions[2].options = ["Joe Biden", "Dick Cheney", "Dan Quayle","Albert Gore"];
+			triviaGame.questions[3].options = ["Dog", "Monkey", "Cat", "Parrot"];
+			triviaGame.questions[4].options = ["The Simpsons", "Law and Order", "Survivor", "Gunsmoke"];
 			triviaGame.questions[5].options = ["New York", "Pennsylvania", "New Jersey", "Massachusetts"];
 
 		},
 
 		runTrivia: function(index){
-			$("#start-btn").remove();
 			contentBody.html("");
 			contentBody.append("<div id='timer'></div>");
-			number = 30;
-			clearInterval(intervalId2);
-			intervalId = setInterval(decrement, 1000);
+			quesTNumber = 30;
+			clearInterval(gifTimer);
+			questionTimer = setInterval(questionDecrement, 1000);
 
 			var answer = triviaGame.questions[index].options[0];
 			//shuffles the options
@@ -103,8 +114,7 @@ $(document).ready(function(){
 				return d
 			};
 			answerArray.push(answer);
-			console.log(answerArray);
-			queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + triviaGame.questions[onIndex].options[0] + "&api_key=dc6zaTOxFJmzC";
+			queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + triviaGame.questions[onIndex].options[0] + "&rating=g&limit=5&api_key=dc6zaTOxFJmzC";
 			shuffleOptions(triviaGame.questions[index].options);
 			//displays the question and options onto the page
 			contentBody.append("<h2 class='questionOutput'>" + triviaGame.questions[index].question + "</h2>");
@@ -121,45 +131,34 @@ $(document).ready(function(){
 	})
 	//on click event for when an option is clicked
 	$(document).on("click", ".option", function(){
-		if($(this).val() == answerArray[0]){
-			clearInterval(intervalId);
-			contentBody.html("<h2>Correct!</h2>");
-			contentBody.append("<div id='giphy'></div>");
-			$.ajax({
-				url: queryUrl,
-				method: "GET"
-			}).done(function(response){
-				$("#giphy").html("<img src='" + response.data[0].images.fixed_height.url + "'>");
-			})
+		if($(this).val() === answerArray[0]){
+			clearInterval(questionTimer);
+			contentBody.html("<h1>Correct!</h1>");
+			getGif();
 			correctAnswers++;
 			answerArray = [];
 
 		}
-		else{
-			clearInterval(intervalId);
-			contentBody.html("<h2>Incorrect!</h2>");
-			contentBody.append("<h2>The correct answer was: <strong>" + answerArray[0] + "</strong></h2>");
-			contentBody.append("<div id='giphy'></div>");
-			$.ajax({
-				url: queryUrl,
-				method: "GET"
-			}).done(function(response){
-				$("#giphy").html("<img src='" + response.data[0].images.fixed_height.url + "'>");
-			})
+		else if($(this).val() !== answerArray[0]){
+			clearInterval(questionTimer);
+			contentBody.html("<h1>Incorrect!</h1>");
+			contentBody.append("<h1>The correct answer was: " + answerArray[0] + "</h1>");
+			getGif();
 			incorrectAnswers++;
 			answerArray = [];
 
 		}
 		if(onIndex < triviaGame.questions.length - 1){
-		number2 = 4;
-		intervalId2 = setInterval(decrement2, 1000);
+		clearInterval(questionTimer);
+		gifTNumber = 4;
+		gifTimer = setInterval(gifDecrement, 1000);
 		}
 		else{
-			contentBody.append("<h2>Correct Answers: " + correctAnswers + "</h2>");
-			contentBody.append("<h2>Incorrect Answers: " + incorrectAnswers + "</h2>");
-			contentBody.append("<h2>Unaswered questions: " + unanswered + "</h2>");
-			clearInterval(intervalId);
-			clearInterval(intervalId2);
+			contentBody.append("<h1>Correct Answers: " + correctAnswers + "</h1>");
+			contentBody.append("<h1>Incorrect Answers: " + incorrectAnswers + "</h1>");
+			contentBody.append("<h1>Unaswered questions: " + unanswered + "</h1>");
+			clearInterval(questionTimer);
+			clearInterval(gifTimer);
 			contentBody.append("<input type='button' id='start-btn' value='Restart'></input>");
 			onIndex = 0;
 			triviaGame.resetOptions();
@@ -167,7 +166,6 @@ $(document).ready(function(){
 			incorrectAnswers = 0;
 
 		}
-		clearInterval(intervalId);
 	})
 
 })
