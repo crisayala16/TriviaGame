@@ -92,6 +92,8 @@ $(document).ready(function(){
 			triviaGame.questions[3].options = ["Dog", "Monkey", "Cat", "Parrot"];
 			triviaGame.questions[4].options = ["The Simpsons", "Law and Order", "Survivor", "Gunsmoke"];
 			triviaGame.questions[5].options = ["New York", "Pennsylvania", "New Jersey", "Massachusetts"];
+			triviaGame.questions[6].options = ["John Cena", "Jonny", "a me, Mario", "begining to look a lot like Christmas"];
+
 
 		},
 
