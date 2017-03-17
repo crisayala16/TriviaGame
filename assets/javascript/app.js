@@ -18,8 +18,7 @@ $(document).ready(function(){
 				url: queryUrl,
 				method: "GET"
 			}).done(function(response){
-				var random = Math.floor(Math.random() * 3);
-				console.log(random);
+				var random = Math.floor(Math.random() * 11);
 				$("#giphy").html("<img src='" + response.data[random].images.fixed_height.url + "'>");
 			})
 	}
@@ -116,7 +115,7 @@ $(document).ready(function(){
 				return d
 			};
 			answerArray.push(answer);
-			queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + triviaGame.questions[onIndex].options[0] + "&rating=g&limit=5&api_key=dc6zaTOxFJmzC";
+			queryUrl = "https://api.giphy.com/v1/gifs/search?q=" + triviaGame.questions[onIndex].options[0] + "&rating=g&limit=11&api_key=dc6zaTOxFJmzC";
 			shuffleOptions(triviaGame.questions[index].options);
 			//displays the question and options onto the page
 			contentBody.append("<h2 class='questionOutput'>" + triviaGame.questions[index].question + "</h2>");
@@ -166,6 +165,7 @@ $(document).ready(function(){
 			triviaGame.resetOptions();
 			correctAnswers = 0;
 			incorrectAnswers = 0;
+			unanswered = 0;
 
 		}
 	})
