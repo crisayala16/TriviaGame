@@ -7,7 +7,7 @@ $(document).ready(function(){
 	var onIndex = 0;
 	var questionTimer;
 	var gifTimer;
-	var quesTNumber = 3;
+	var quesTNumber = 30;
 	var gifTNumber = 4;
 	var queryUrl;
 
@@ -118,7 +118,7 @@ $(document).ready(function(){
         runTrivia: function(index){
         	contentBody.html("");
         	contentBody.append("<div id='timer'></div>");
-        	quesTNumber = 2;
+        	quesTNumber = 30;
         	clearInterval(gifTimer);
         	questionTimer = setInterval(questionDecrement, 1000);
 
